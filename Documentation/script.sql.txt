@@ -1,0 +1,81 @@
+CREATE TABLE Depot(
+   Id_Depot SERIAL,
+   code VARCHAR(10)  NOT NULL,
+   name VARCHAR(100)  NOT NULL,
+   adress VARCHAR(200) ,
+   active BOOLEAN NOT NULL,
+   PRIMARY KEY(Id_Depot),
+   UNIQUE(code)
+);
+
+CREATE TABLE Users(
+   Id_User SERIAL,
+   firstName VARCHAR(40)  NOT NULL,
+   lastName VARCHAR(40)  NOT NULL,
+   login VARCHAR(50)  NOT NULL,
+   password VARCHAR(255)  NOT NULL,
+   role VARCHAR(50)  NOT NULL,
+   active BOOLEAN NOT NULL,
+   createdAt TIMESTAMP NOT NULL,
+   Id_Depot INTEGER NOT NULL,
+   PRIMARY KEY(Id_User),
+   UNIQUE(login),
+   FOREIGN KEY(Id_Depot) REFERENCES Depot(Id_Depot)
+);
+
+CREATE TABLE Location(
+   Id_Location SERIAL,
+   rack VARCHAR(3)  NOT NULL,
+   aisle VARCHAR(1)  NOT NULL,
+   level INTEGER NOT NULL,
+   column_ INTEGER NOT NULL,
+   code VARCHAR(8)  NOT NULL,
+   qrToken VARCHAR(36)  NOT NULL,
+   active BOOLEAN NOT NULL,
+   createdAt TIMESTAMP NOT NULL,
+   Id_Depot INTEGER NOT NULL,
+   PRIMARY KEY(Id_Location),
+   UNIQUE(code),
+   UNIQUE(qrToken),
+   FOREIGN KEY(Id_Depot) REFERENCES Depot(Id_Depot)
+);
+
+CREATE TABLE Item(
+   Id_Item SERIAL,
+   barCode VARCHAR(20) ,
+   reference VARCHAR(30)  NOT NULL,
+   label VARCHAR(150)  NOT NULL,
+   unit VARCHAR(20)  NOT NULL,
+   createdAt TIMESTAMP NOT NULL,
+   PRIMARY KEY(Id_Item),
+   UNIQUE(barCode),
+   UNIQUE(reference)
+);
+
+CREATE TABLE StockLine(
+   Id_StockLine SERIAL,
+   quantity NUMERIC(15,2)   NOT NULL,
+   status VARCHAR(50)  NOT NULL,
+   updatedAt TIMESTAMP NOT NULL,
+   Id_Item INTEGER NOT NULL,
+   Id_Location INTEGER NOT NULL,
+   PRIMARY KEY(Id_StockLine),
+   FOREIGN KEY(Id_Item) REFERENCES Item(Id_Item),
+   FOREIGN KEY(Id_Location) REFERENCES Location(Id_Location)
+);
+
+CREATE TABLE Movement(
+   Id_Movement SERIAL,
+   type VARCHAR(50)  NOT NULL,
+   quantity NUMERIC(15,2)   NOT NULL,
+   quantityAfter NUMERIC(15,2)   NOT NULL,
+   clientName VARCHAR(100) ,
+   note VARCHAR(500) ,
+   quantityBefore NUMERIC(15,2)   NOT NULL,
+   createdAt TIMESTAMP NOT NULL,
+   Id_User INTEGER NOT NULL,
+   Id_StockLine INTEGER NOT NULL,
+   PRIMARY KEY(Id_Movement),
+   FOREIGN KEY(Id_User) REFERENCES Users(Id_User),
+   FOREIGN KEY(Id_StockLine) REFERENCES StockLine(Id_StockLine)
+);

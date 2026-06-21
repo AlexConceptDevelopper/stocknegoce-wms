@@ -1,5 +1,7 @@
 package com.stocknegoce.wms.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +25,7 @@ public class User {
     @Column(unique = true, nullable = false, length = 50)
     private String login;
 
+    @JsonIgnore
     @Column(nullable = false, length = 255)
     private String password;
 
