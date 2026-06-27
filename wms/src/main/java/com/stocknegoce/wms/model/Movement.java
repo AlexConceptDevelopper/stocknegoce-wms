@@ -14,6 +14,18 @@ public class Movement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_movement;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_stockline")
+    private StockLine stockLine;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_user")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "purchase_order_id")
+    private PurchaseOrder purchaseOrder;
+
     @Column(nullable = false, length = 50)
     private String type;
 
@@ -34,12 +46,4 @@ public class Movement {
 
     @Column(nullable = false)
     private java.sql.Timestamp createdAt;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "id_user")
-    private User user;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "id_stockline")
-    private StockLine stockLine;
 }

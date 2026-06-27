@@ -38,7 +38,7 @@ public class ItemController extends GenericController<Item, Integer> {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Article introuvable");
         }
 
-        item.setId_item(id);
+        item.setIdItem(id);
         Item updatedItem = itemRepository.save(item);
         return ResponseEntity.ok(updatedItem);
     }
@@ -62,7 +62,7 @@ public class ItemController extends GenericController<Item, Integer> {
         // Fusionner les résultats sans doublons
         byLabel.addAll(byReference.stream()
                 .filter(item -> byLabel.stream()
-                        .noneMatch(i -> i.getId_item().equals(item.getId_item())))
+                        .noneMatch(i -> i.getIdItem().equals(item.getIdItem())))
                 .toList());
 
         return ResponseEntity.ok(byLabel);

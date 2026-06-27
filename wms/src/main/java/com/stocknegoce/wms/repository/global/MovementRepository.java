@@ -27,7 +27,7 @@ public interface MovementRepository extends GenericRepository<Movement, Integer>
     /**
      * Historique par article
      */
-    @Query("SELECT m FROM Movement m WHERE m.stockLine.item.id_item = :itemId ORDER BY m.createdAt DESC")
+    @Query("SELECT m FROM Movement m WHERE m.stockLine.item.idItem = :itemId ORDER BY m.createdAt DESC")
     List<Movement> findByItemId(@Param("itemId") Integer itemId);
 
     /**
